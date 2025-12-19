@@ -30,4 +30,5 @@ Setup
 4. Open index.html to run locally
 
 Live Version
-https://your-app.netlify.app (update after deployment)
+https://timely-puffpuff-a7b236.netlify.app/
+
