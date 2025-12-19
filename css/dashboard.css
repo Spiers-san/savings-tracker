@@ -1,0 +1,915 @@
+/* dashboard.css - Savings Tracker Dashboard */
+
+/* Base Styles */
+:root {
+    --primary: #00d4ff;
+    --primary-dark: #00b7d6;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --background: #0f172a;
+    --card-bg: #1e293b;
+    --border: #334155;
+    --text: #f8fafc;
+    --text-secondary: #94a3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* Navigation Bar */
+.navbar {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.nav-brand i {
+    font-size: 1.8rem;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-greeting {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.user-email {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.logout-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logout-btn:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.dashboard-header .tagline {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Savings Overview */
+.savings-overview {
+    margin-bottom: 40px;
+}
+
+.overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.overview-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.overview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.card-title i {
+    font-size: 1.2rem;
+}
+
+.card-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.card-trend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin-bottom: 40px;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.action-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 25px 20px;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+}
+
+.action-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.5rem;
+}
+
+.action-icon.goal-add {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary);
+}
+
+.action-icon.deposit {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--secondary);
+}
+
+.action-icon.goals {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.action-icon.history {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.action-text {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.action-subtext {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Savings Goals Section */
+.savings-goals-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.add-goal-btn {
+    background: var(--primary);
+    color: var(--background);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.add-goal-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Goal Cards */
+.goal-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.goal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary);
+}
+
+.goal-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.goal-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(0, 212, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.goal-info {
+    flex: 1;
+}
+
+.goal-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text);
+}
+
+.goal-category {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 4px 12px;
+    background: rgba(148, 163, 184, 0.1);
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.goal-status {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.goal-status.active {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.goal-status.completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--secondary);
+}
+
+.goal-progress {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(148, 163, 184, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.progress-text span:last-child {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.goal-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.goal-deadline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.view-goal-btn {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-goal-btn:hover {
+    background: var(--primary);
+    color: var(--background);
+}
+
+/* Recent Transactions */
+.recent-transactions {
+    margin-bottom: 40px;
+}
+
+.transactions-list {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid var(--border);
+    min-height: 200px;
+}
+
+/* Transaction Items */
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.transaction-icon.deposit {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--secondary);
+}
+
+.transaction-icon.withdrawal {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-details h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text);
+}
+
+.transaction-details p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.transaction-details small {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.transaction-amount {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.transaction-amount.deposit {
+    color: var(--secondary);
+}
+
+.transaction-amount.withdrawal {
+    color: var(--danger);
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+    grid-column: 1 / -1;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.add-first-btn {
+    background: var(--primary);
+    color: var(--background);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-first-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   MODAL STYLES (ADDED)
+   ============================================ */
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+    animation: fadeIn 0.3s ease;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+
+/* Modal Content */
+.modal-content {
+    background: var(--card-bg) !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid var(--border) !important;
+    animation: slideUp 0.3s ease !important;
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 20px 24px !important;
+    border-bottom: 1px solid var(--border) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: sticky !important;
+    top: 0 !important;
+    background: var(--card-bg) !important;
+    border-radius: 16px 16px 0 0 !important;
+    z-index: 1 !important;
+}
+
+.modal-header h2 {
+    margin: 0 !important;
+    font-size: 1.5rem !important;
+    color: var(--text) !important;
+    font-weight: 700 !important;
+}
+
+/* Close Button */
+.close-modal {
+    background: rgba(148, 163, 184, 0.1) !important;
+    border: none !important;
+    font-size: 24px !important;
+    cursor: pointer !important;
+    color: var(--text-secondary) !important;
+    padding: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+.close-modal:hover {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: var(--danger) !important;
+    transform: rotate(90deg) !important;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 24px !important;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px !important;
+}
+
+.form-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+}
+
+label {
+    display: block !important;
+    margin-bottom: 8px !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    font-size: 0.95rem !important;
+}
+
+input, select {
+    width: 100% !important;
+    padding: 12px 16px !important;
+    background: rgba(15, 23, 42, 0.5) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    color: var(--text) !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+input:focus, select:focus {
+    outline: none !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2) !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+}
+
+input::placeholder {
+    color: var(--text-secondary) !important;
+    opacity: 0.7 !important;
+}
+
+/* Color Picker */
+.color-options {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+.color-option {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    border: 2px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.color-option:hover {
+    transform: scale(1.1) !important;
+    border-color: var(--text) !important;
+}
+
+.color-option.active {
+    border-color: var(--text) !important;
+    box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex !important;
+    gap: 12px !important;
+    justify-content: flex-end !important;
+    margin-top: 24px !important;
+    padding-top: 24px !important;
+    border-top: 1px solid var(--border) !important;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    border: none !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    min-width: 120px !important;
+}
+
+.btn-primary {
+    background: var(--primary) !important;
+    color: var(--background) !important;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3) !important;
+}
+
+.btn-secondary {
+    background: rgba(148, 163, 184, 0.1) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(148, 163, 184, 0.2) !important;
+    border-color: var(--text-secondary) !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(30px) scale(0.95); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Error/Success Messages */
+.error-message, .success-message {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    padding: 16px 24px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    z-index: 10000 !important;
+    animation: slideInRight 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    max-width: 350px !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.error-message {
+    background: rgba(239, 68, 68, 0.9) !important;
+    color: white !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+.success-message {
+    background: rgba(16, 185, 129, 0.9) !important;
+    color: white !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive Modals */
+@media (max-width: 768px) {
+    .modal-overlay {
+        padding: 10px !important;
+    }
+    
+    .modal-content {
+        max-height: 95vh !important;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .btn-primary, .btn-secondary {
+        min-width: auto !important;
+        flex: 1 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-header h2 {
+        font-size: 1.3rem !important;
+    }
+    
+    input, select {
+        padding: 10px 14px !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 10px 16px !important;
+        font-size: 0.95rem !important;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .overview-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .nav-user {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .user-info {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card-value {
+        font-size: 2rem;
+    }
+    
+    .action-btn {
+        padding: 20px 15px;
+    }
+}

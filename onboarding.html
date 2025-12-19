@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Savings Tracker</title>
+    <link rel="stylesheet" href="css/onboarding.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="onboarding-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-step active">1</div>
+            <div class="progress-line"></div>
+            <div class="progress-step">2</div>
+            <div class="progress-line"></div>
+            <div class="progress-step">3</div>
+        </div>
+
+        <!-- Step 1: Current Balance -->
+        <div id="step1" class="onboarding-step active">
+            <div class="step-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h2>Let's start with your current balance</h2>
+            <p class="step-description">How much money do you have in your bank account right now?</p>
+            
+            <div class="balance-input-container">
+                <div class="currency-label">₹</div>
+                <input type="number" id="currentBalance" class="balance-input" placeholder="0.00" min="0" step="0.01" autofocus>
+            </div>
+            
+            <div class="step-note">
+                <i class="fas fa-info-circle"></i>
+                This is your starting point. We'll track changes from here.
+            </div>
+            
+            <button onclick="window.goToStep(2)" class="next-btn" id="continueBtn1">
+                Continue <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Step 2: Monthly Income -->
+        <div id="step2" class="onboarding-step">
+            <div class="step-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <h2>Do you have regular monthly income?</h2>
+            <p class="step-description">This helps us project your future savings growth</p>
+            
+            <div class="option-grid">
+                <div class="option-card" onclick="window.selectIncomeOption('yes')">
+                    <div class="option-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Yes, I have regular income</h3>
+                    <p>Salary, business, or consistent monthly earnings</p>
+                </div>
+                
+                <div class="option-card" onclick="window.selectIncomeOption('no')">
+                    <div class="option-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h3>No regular income</h3>
+                    <p>Freelance, irregular, or student without income</p>
+                </div>
+            </div>
+            
+            <!-- Income Input Section -->
+            <div id="incomeAmountSection" style="display: none;">
+                <label class="section-label">Monthly Income Amount</label>
+                <div class="balance-input-container">
+                    <div class="currency-label">₹</div>
+                    <input type="number" id="monthlyIncome" class="balance-input" placeholder="0.00" min="0" step="0.01">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button onclick="window.goToStep(1)" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button onclick="window.goToStep(3)" class="next-btn" id="continueBtn2">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Monthly Bills -->
+        <div id="step3" class="onboarding-step">
+            <div class="step-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h2>Any monthly bills or expenses?</h2>
+            <p class="step-description">Add regular expenses to track automatically (Optional)</p>
+            
+            <div class="bills-container" id="billsList">
+                <div class="empty-state">
+                    <i class="fas fa-receipt"></i>
+                    <p>No bills added yet</p>
+                </div>
+            </div>
+            
+            <div class="add-bill-form">
+                <input type="text" id="billName" placeholder="Bill name (e.g., Rent, Netflix)" class="bill-input">
+                <input type="number" id="billAmount" placeholder="Amount" class="bill-input" min="0" step="0.01">
+                <button onclick="window.addBill()" class="add-btn">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+            </div>
+            
+            <div class="step-note">
+                <i class="fas fa-lightbulb"></i>
+                You can skip this and add bills later in settings
+            </div>
+            
+            <div class="button-group">
+                <button onclick="window.goToStep(2)" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <!-- SIMPLIFIED BUTTON - Uses window.completeOnboarding -->
+                <button onclick="window.completeOnboarding()" class="finish-btn" id="finishBtn">
+                    <i class="fas fa-rocket"></i> Start Tracking My Savings!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SUPABASE INSTEAD OF FIREBASE ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase (same as index.html)
+        const supabaseUrl = 'https://vnetyllnjwlsgfspnojs.supabase.co';
+        const supabaseKey = 'sb_publishable_qHTc3Ida8tM2SkJNssrX1w_P-RT0hua';
+        window.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        console.log("✅ Supabase initialized for onboarding");
+        
+        // Check if user is logged in
+        window.supabase.auth.getSession().then(({ data: { session } }) => {
+            if (!session?.user) {
+                console.error("❌ No user logged in, redirecting to login");
+                window.location.href = 'index.html';
+            } else {
+                console.log("✅ User logged in:", session.user.email);
+                console.log("User ID:", session.user.id);
+                window.currentUser = session.user;
+                window.userId = session.user.id;
+                
+                // Store user ID for later use
+                localStorage.setItem('currentUserId', session.user.id);
+            }
+        }).catch(error => {
+            console.error("Supabase session error:", error);
+        });
+        
+        // Backup continue button handler
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("✅ onboarding.html DOM loaded");
+            
+            // Add click handlers for continue buttons
+            const continueBtn1 = document.getElementById('continueBtn1');
+            const continueBtn2 = document.getElementById('continueBtn2');
+            const finishBtn = document.getElementById('finishBtn');
+            
+            if (continueBtn1) {
+                continueBtn1.addEventListener('click', function() {
+                    console.log("Continue button 1 clicked");
+                    if (typeof window.goToStep === 'function') {
+                        window.goToStep(2);
+                    }
+                });
+            }
+            
+            if (continueBtn2) {
+                continueBtn2.addEventListener('click', function() {
+                    console.log("Continue button 2 clicked");
+                    if (typeof window.goToStep === 'function') {
+                        window.goToStep(3);
+                    }
+                });
+            }
+            
+            if (finishBtn) {
+                finishBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log("🎯 Finish button clicked");
+                    
+                    // Check if completeOnboarding exists
+                    if (typeof window.completeOnboarding === 'function') {
+                        console.log("Calling completeOnboarding...");
+                        window.completeOnboarding();
+                    } else {
+                        console.error("completeOnboarding function not found!");
+                        alert("Setup complete! Redirecting to dashboard...");
+                        window.location.href = 'dashboard.html';
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <!-- Main Onboarding JavaScript -->
+    <script src="js/onboarding.js"></script>
+</body>
+</html>

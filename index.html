@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Tracker | Login</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        #passwordResetModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Logo/Header -->
+            <div class="auth-header">
+                <h1><i class="fas fa-bolt"></i> Savings Tracker</h1>
+                <p class="tagline">Track your financial goals with precision</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="loginTab">Login</button>
+                <button class="tab-btn" id="signupTab">Sign Up</button>
+            </div>
+
+            <!-- ========== LOGIN FORM ========== -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">
+                        <i class="fas fa-history"></i> Remember me for 30 days
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                </button>
+
+                <div class="forgot-password">
+                    <a href="#" id="forgotPasswordLink">
+                        <i class="fas fa-key"></i> Forgot Password?
+                    </a>
+                </div>
+
+                <div class="auth-footer">
+                    <p>Demo account: demo@example.com | Password: demo123</p>
+                </div>
+            </form>
+
+            <!-- ========== SIGNUP FORM ========== -->
+            <form id="signupForm" class="auth-form">
+                <div class="form-group">
+                    <label for="signupName">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input type="text" id="signupName" class="form-input" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="signupPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupConfirmPassword">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input type="password" id="signupConfirmPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <!-- ========== PASSWORD RESET MODAL ========== -->
+            <div id="passwordResetModal" class="modal">
+                <div class="modal-content">
+                    <h3><i class="fas fa-unlock-alt"></i> Reset Password</h3>
+                    <p>Enter your email address and we'll send you a password reset link.</p>
+                    <input type="email" id="resetEmail" placeholder="your@email.com">
+                    <div class="modal-buttons">
+                        <button id="sendResetEmail">Send Reset Link</button>
+                        <button id="closeModal">Cancel</button>
+                    </div>
+                    <div id="resetMessage"></div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="authError" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- ========== SUPABASE SCRIPT ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ✅ PUT YOUR REAL CREDENTIALS HERE
+        const supabaseUrl = 'https://vnetyllnjwlsgfspnojs.supabase.co';
+        const supabaseKey = 'sb_publishable_qHTc3Ida8tM2SkJNssrX1w_P-RT0hua'; // ⚠️ REPLACE WITH YOUR ACTUAL FULL KEY
+        
+        console.log("=== SUPABASE INITIALIZATION ===");
+        console.log("URL:", supabaseUrl);
+        console.log("Key (first 30 chars):", supabaseKey.substring(0, 30) + "...");
+        console.log("Full key length:", supabaseKey.length);
+        
+        // SIMPLE INITIALIZATION - NO COMPLEX FALLBACK
+        try {
+            if (supabaseUrl && supabaseKey && supabaseKey.startsWith('sb_pub')) {
+                window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+                console.log("✅ Supabase initialized successfully!");
+                console.log("Supabase object:", window.supabase);
+                console.log("auth.signUp available:", typeof window.supabase.auth.signUp);
+            } else {
+                console.error("❌ Invalid credentials!");
+                console.error("URL valid?", supabaseUrl && supabaseUrl.includes('supabase.co'));
+                console.error("Key valid?", supabaseKey && supabaseKey.startsWith('sb_pub'));
+                window.supabase = null;
+            }
+        } catch (error) {
+            console.error("❌ Supabase initialization error:", error);
+            window.supabase = null;
+        }
+    </script>
+
+    <!-- ========== YOUR SCRIPTS ========== -->
+    <script src="js/auth.js"></script>
+    <div id="modalsContainer" style="display: none;"></div>
+
+    <!-- Debug check after page loads -->
+    <script>
+        window.addEventListener('load', function() {
+            console.log("=== PAGE LOADED DEBUG ===");
+            console.log("1. window.supabase exists?", !!window.supabase);
+            console.log("2. window.supabase.auth exists?", !!window.supabase?.auth);
+            console.log("3. signUp function exists?", !!window.supabase?.auth?.signUp);
+            console.log("4. Full supabase object:", window.supabase);
+            
+            if (!window.supabase?.auth?.signUp) {
+                console.error("❌❌❌ CRITICAL ERROR: Supabase signUp is NOT available!");
+                document.getElementById('authError').textContent = "Authentication service error. Check browser console (F12).";
+                document.getElementById('authError').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

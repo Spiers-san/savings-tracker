@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Tracker | Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-bolt"></i> Savings Tracker
+            </div>
+            <div class="nav-user">
+                <div class="user-info">
+                    <div id="userGreeting" class="user-greeting">Hello there!</div>
+                    <div id="userEmail" class="user-email">Loading...</div>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> Savings Dashboard</h1>
+            <p class="tagline">Track and achieve your financial goals</p>
+        </div>
+
+        <!-- Savings Overview -->
+        <div class="savings-overview">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> Savings Overview</h2>
+            
+            <div class="overview-cards">
+                <!-- Total Saved -->
+                <div class="overview-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-wallet"></i>
+                            <span>Total Saved</span>
+                        </div>
+                    </div>
+                    <div class="card-value" id="totalSaved">₹0.00</div>
+                    <div class="card-trend">
+                        <i class="fas fa-piggy-bank"></i>
+                        <span>Across all goals</span>
+                    </div>
+                </div>
+                
+                <!-- Total Goals -->
+                <div class="overview-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-bullseye"></i>
+                            <span>Active Goals</span>
+                        </div>
+                    </div>
+                    <div class="card-value" id="totalGoals">0</div>
+                    <div class="card-trend">
+                        <i class="fas fa-target"></i>
+                        <span>Goals in progress</span>
+                    </div>
+                </div>
+                
+                <!-- Completed Goals -->
+                <div class="overview-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Completed Goals</span>
+                        </div>
+                    </div>
+                    <div class="card-value" id="completedGoals">0</div>
+                    <div class="card-trend">
+                        <i class="fas fa-trophy"></i>
+                        <span>Goals achieved</span>
+                    </div>
+                </div>
+                
+                <!-- Next Deadline -->
+                <div class="overview-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>Next Deadline</span>
+                        </div>
+                    </div>
+                    <div class="card-value" id="nextDeadline">--/--/----</div>
+                    <div class="card-trend">
+                        <i class="fas fa-clock"></i>
+                        <span>Upcoming goal target</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2 class="section-title"><i class="fas fa-bolt"></i> Quick Actions</h2>
+            
+            <div class="actions-grid">
+                <!-- Add Goal -->
+                <button onclick="showAddGoalModal()" class="action-btn">
+                    <div class="action-icon goal-add">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="action-text">Add New Goal</div>
+                    <div class="action-subtext">Create savings target</div>
+                </button>
+                
+                <!-- Add Deposit -->
+                <button onclick="showAddDepositModal()" class="action-btn">
+                    <div class="action-icon deposit">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="action-text">Add Deposit</div>
+                    <div class="action-subtext">Save money to goal</div>
+                </button>
+                
+                <!-- View All Goals -->
+                <button onclick="viewAllGoals()" class="action-btn">
+                    <div class="action-icon goals">
+                        <i class="fas fa-list-ul"></i>
+                    </div>
+                    <div class="action-text">View All Goals</div>
+                    <div class="action-subtext">See all savings targets</div>
+                </button>
+                
+                <!-- Transaction History -->
+                <button onclick="viewTransactionHistory()" class="action-btn">
+                    <div class="action-icon history">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="action-text">Transaction History</div>
+                    <div class="action-subtext">All deposits & withdrawals</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Your Savings Goals -->
+        <div class="savings-goals-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-bullseye"></i> Your Savings Goals</h2>
+                <button onclick="showAddGoalModal()" class="add-goal-btn">
+                    <i class="fas fa-plus"></i> Add Goal
+                </button>
+            </div>
+            
+            <div id="goalsList" class="goals-grid">
+                <!-- Goals will be loaded here dynamically -->
+                <div class="empty-state">
+                    <i class="fas fa-bullseye"></i>
+                    <p>No savings goals yet</p>
+                    <button onclick="showAddGoalModal()" class="add-first-btn">
+                        Create Your First Goal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="recent-transactions">
+            <h2 class="section-title"><i class="fas fa-history"></i> Recent Transactions</h2>
+            <div id="transactionsList" class="transactions-list">
+                <div class="empty-state">
+                    <i class="fas fa-receipt"></i>
+                    <p>No transactions yet</p>
+                    <button onclick="showAddDepositModal()" class="add-first-btn">
+                        Make Your First Deposit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modalsContainer"></div>
+
+    <!-- ========== SUPABASE & SCRIPTS ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase (same as in index.html)
+        const supabaseUrl = 'https://vnetyllnjwlsgfspnojs.supabase.co';
+        const supabaseKey = 'sb_publishable_qHTc3Ida8tM2SkJNssrX1w_P-RT0hua';
+        window.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        console.log("✅ Supabase initialized for dashboard");
+        
+        // Logout function (keep this simple)
+        window.logout = async function() {
+            try {
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert("Error logging out. Please try again.");
+            }
+        };
+    </script>
+    
+    <!-- Load modals.js BEFORE dashboard.js because dashboard.js needs modal functions -->
+    <script src="js/models.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+    <!-- Optional: Simple fallback if modals.js doesn't load -->
+    <script>
+        // This is just a safety fallback - modals.js should define these
+        if (typeof showAddGoalModal === 'undefined') {
+            console.warn("⚠️ modals.js not loaded properly, using fallback");
+            window.showAddGoalModal = function() {
+                alert('Add Goal feature - loading...');
+            };
+            window.showAddDepositModal = function() {
+                alert('Add Deposit feature - loading...');
+            };
+            window.viewAllGoals = function() {
+                alert('View All Goals feature - loading...');
+            };
+            window.viewTransactionHistory = function() {
+                alert('Transaction History feature - loading...');
+            };
+        }
+    </script>
+</body>
+</html>
